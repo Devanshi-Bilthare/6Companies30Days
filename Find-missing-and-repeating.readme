@@ -1,0 +1,75 @@
+first solution
+class Solve {
+    int[] findTwoElement(int arr[], int n) {
+        // code here
+        Arrays.sort(arr);
+        int mis = n;
+       if(arr[0] != 1)  mis = 1;
+        int rep = 1;
+        
+        for(int i = 1; i < n;i++){
+            if(arr[i] == arr[i-1]) rep = arr[i];
+            else if(arr[i] != arr[i-1]+1) mis = arr[i] - 1;
+        }
+        
+        int [] temp = new int[2];
+        temp[0] = rep;
+        temp[1] = mis;
+        
+        return temp;
+    }
+}
+
+Hashing solution
+class Solve {
+    int[] findTwoElement(int arr[], int n) {
+        int[] hash = new int[n + 1]; // hash array
+
+        //update the hash array:
+        for (int i = 0; i < n; i++) {
+            hash[arr[i]]++;
+        }
+
+        //Find the repeating and missing number:
+        int rep = -1, mis = -1;
+        for (int i = 1; i <= n; i++) {
+            if (hash[i] == 2) rep = i;
+            else if (hash[i] == 0) mis = i;
+
+            if (rep != -1 && mis != -1)
+                break;
+        }
+        int[] ans = {rep, mis};
+        return ans;
+    }
+}
+
+
+This solution worked on interviewBit butnot on GOG some test cases fails
+class Solve {
+    int[] findTwoElement(int arr[], int n) {
+        // code here
+       long sumN = n*(n+1)/2;
+       long squareN = n * (n+1)* (2*n + 1)/6;
+       long sumArr = 0;
+       long sumSquareArr = 0;
+       
+       for(int i = 0; i < n;i++){
+           sumArr += arr[i];
+           sumSquareArr +=(long)arr[i] * (long)arr[i];
+       }
+       
+       long x = sumArr - sumN;
+       long y = sumSquareArr - squareN;
+       y = y/x;
+       
+       long rep = (x + y)/2;
+       long mis = rep - x;
+       
+        int [] temp = new int[2];
+        temp[0] = (int)rep;
+        temp[1] = (int)mis;
+        
+        return temp;
+    }
+}
