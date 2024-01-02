@@ -1,0 +1,34 @@
+public class Solution {
+    int c;
+    int total;
+    int flipped;
+   Map<Integer, Integer> map;
+
+    int[] getIndex(int key) {
+       return new int[]{key / c, key % c};
+   }
+
+   public Solution(int m, int n) {
+       c = n;
+       total = m * n;
+       flipped = 0;
+       map = new HashMap<>();
+   }
+
+   public int[] flip() {
+       Random rand = new Random();
+       int k = rand.nextInt(total - flipped) + flipped;
+
+       int key = map.containsKey(k) ? map.get(k) : k;
+       map.put(k, map.containsKey(flipped) ? map.get(flipped) : flipped);
+       flipped++;
+
+       return getIndex(key);
+   }
+
+   public void reset() {
+       map.clear();
+       flipped = 0;
+   }
+
+}
