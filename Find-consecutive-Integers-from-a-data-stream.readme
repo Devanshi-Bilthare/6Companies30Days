@@ -1,0 +1,61 @@
+1. counting solution
+class DataStream {
+         int cnt;
+         int k;
+         int value;
+    public DataStream(int value, int k) {
+       this.k = k;
+       this.value = value;
+       cnt = 0;
+        
+    }
+    
+    public boolean consec(int num) {
+        if(num == value) cnt++;
+        else{
+            cnt = 0;
+            return false;
+        }
+
+        if(cnt == k){
+            cnt--;
+            return true;
+        }
+
+        return false;
+    }
+}
+
+
+
+
+
+2. solved using queue and mapclass DataStream {
+        Queue<Integer> q;
+        Map<Integer,Integer> map;
+         int k;
+         int value;
+    public DataStream(int value, int k) {
+       this.k = k;
+       this.value = value;
+        q = new LinkedList<>();
+        map = new HashMap<>();        
+    }
+    
+    public boolean consec(int num) {
+        q.offer(num);
+        map.put(num,map.getOrDefault(num,0)+1);
+
+        if(q.size() > k){
+            int removed = q.poll();
+            if(map.containsKey(removed)){
+                map.put(removed,map.get(removed)-1);
+                if(map.get(removed) == 0){
+                    map.remove(removed);
+                }
+            }
+        }
+
+        return map.getOrDefault(value,0) == k;
+    }
+}
