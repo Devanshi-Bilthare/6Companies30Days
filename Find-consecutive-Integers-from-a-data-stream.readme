@@ -59,3 +59,4 @@ class DataStream {
         return map.getOrDefault(value,0) == k;
     }
 }
+
