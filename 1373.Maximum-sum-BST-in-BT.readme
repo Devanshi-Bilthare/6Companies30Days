@@ -1,0 +1,60 @@
+Brute force solution (shows timelimit excedded)
+class Solution {
+    int sum = 0;
+    public int maxSumBST(TreeNode root) {
+         if(root == null) return 0;
+
+        if(isValid(root,Long.MIN_VALUE,Long.MAX_VALUE)){
+            sum =Math.max(sum, findSum(root));
+            System.out.println(sum);
+        }
+
+        maxSumBST(root.left);
+        maxSumBST(root.right);
+
+        return sum;
+    }
+
+     boolean isValid(TreeNode root,long min,long max){
+        if(root == null) return true;
+        if(root.val >= max || root.val <= min) return false;
+
+        return isValid(root.left,min,root.val) && isValid(root.right,root.val,max);
+    }
+
+    int findSum(TreeNode root){
+        if(root == null) return 0;
+
+        return root.val + findSum(root.left) + findSum(root.right); 
+    }
+}
+
+optimal solution
+class Solution {
+    int maxSum = 0;
+    public int maxSumBST(TreeNode root) {
+         postOrder(root);
+         return maxSum;
+    }
+
+    int[] postOrder(TreeNode root){
+        if(root == null) return new int[]{Integer.MAX_VALUE,Integer.MIN_VALUE,0};
+
+        int[] leftTree = postOrder(root.left);
+        int[] rightTree = postOrder(root.right);
+
+        if(leftTree == null || rightTree == null || root.val <= leftTree[1] || root.val >= rightTree[0]) return null;
+
+        int sum = root.val + leftTree[2] + rightTree[2];
+        maxSum = Math.max(sum,maxSum);
+
+        int max = Math.max(root.val,rightTree[1]);
+        int min = Math.min(root.val,leftTree[0]);
+
+        return new int[]{min,max,sum}; 
+    }
+
+    
+
+   
+}
