@@ -1,0 +1,51 @@
+class Solution {
+    class Pair{
+        int row;
+        int col;
+
+        Pair(int row,int col){
+            this.row = row;
+            this.col = col;
+        }
+    }
+
+    public int[][] highestPeak(int[][] isWater) {
+        int n = isWater.length;
+        int m = isWater[0].length;
+
+        int[][] mat = new int[n][m];
+        for(int [] row: mat){
+            Arrays.fill(row,Integer.MAX_VALUE);
+        }
+
+        Queue<Pair> q = new LinkedList<>();
+        for(int r = 0; r < n;r++){
+            for(int c = 0;c< m;c++){
+                if(isWater[r][c] == 1){
+                    mat[r][c] =0;
+                    q.add(new Pair(r,c));
+                }
+            }
+        }
+
+        while(!q.isEmpty()){
+            Pair cur = q.poll();
+            int r = cur.row;
+            int c = cur.col;
+
+            int[] arrR = {1,0,-1,0};
+            int[] arrC = {0,1,0,-1};
+
+            for(int i=0; i<4; i++){
+                int nr = r + arrR[i];
+                int nc = c + arrC[i];
+
+                if(((nr>=0 && nc>=0) && (nr<n && nc<m)) && mat[nr][nc] > 1+mat[r][c]){
+                    mat[nr][nc] = 1 + mat[r][c];
+                    q.add(new Pair(nr, nc));
+                }
+            }
+        }
+        return mat;
+    }
+}
