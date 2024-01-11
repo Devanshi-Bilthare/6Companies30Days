@@ -1,0 +1,63 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int amountOfTime(TreeNode root, int start) {
+        Map<Integer,List<Integer>> map = new HashMap<>();
+        ConvertGraph(root,-1,map);
+
+        Queue<Integer> q = new LinkedList<>();
+        Set<Integer> vis = new HashSet<>();
+        q.add(start);
+        vis.add(start);
+
+        int min = 0;
+        while(!q.isEmpty()){
+            int size = q.size();
+            while(size > 0){
+                int curr = q.poll();
+                for(int neighbour : map.getOrDefault(curr, Collections.emptyList())){
+                    if(!vis.contains(neighbour)){
+                        q.add(neighbour);
+                        vis.add(neighbour);
+                    }
+                }
+                size--;
+            }
+
+            min++;
+
+        }
+        return min-1;
+    }
+
+    void ConvertGraph(TreeNode root,int curr,Map<Integer,List<Integer>> map){
+        if(root == null) return;
+
+        if(curr != -1){
+            map.computeIfAbsent(root.val, k -> new ArrayList<>()).add(curr);
+        }
+
+        if(root.left != null){
+            map.computeIfAbsent(root.val,k -> new ArrayList<>()).add(root.left.val);
+        }
+         if(root.right != null){
+            map.computeIfAbsent(root.val,k -> new ArrayList<>()).add(root.right.val);
+        }
+
+        ConvertGraph(root.left,root.val,map);
+        ConvertGraph(root.right,root.val,map);
+    }
+}
