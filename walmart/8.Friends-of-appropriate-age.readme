@@ -1,0 +1,21 @@
+class Solution {
+    public int numFriendRequests(int[] ages) {
+        Arrays.sort(ages);
+        int count=0;
+        int  n=ages.length;
+        for(int i=n-1;i>=1;i--){
+            int x=ages[i];
+            int j=i-1;
+            while( j>=0 && ages[i]*0.5+7<ages[j]){
+                if(ages[i]==ages[j]){
+                    count+=2;
+                }else{
+                    count++;
+                }
+                j--;
+            }
+
+        }
+        return count;
+    }
+}
