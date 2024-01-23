@@ -1,0 +1,23 @@
+class Solution {
+    public int findContentChildren(int[] g, int[] s) {
+        int n = g.length-1;
+        int m = s.length-1;
+        if(s.length== 0) return 0;
+        Arrays.sort(g);
+        Arrays.sort(s);
+
+        int cookies = 0;
+        while(n >= 0 && m >= 0){
+            if(s[m] >= g[n]){
+                cookies++;
+                n--;
+                m--;
+            }else{
+                n--;
+            }
+        }
+
+        return cookies;
+        
+    }
+}
