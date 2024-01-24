@@ -11,6 +11,7 @@ class Solution {
                     coli++;
                 }
 
+
                 while(!st.isEmpty() && st.peek() == 'R'){
                     coli++;
                     st.pop();
